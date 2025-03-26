@@ -48,3 +48,9 @@ jobs:
           export ESPRESSIF_TOOLCHAIN_PATH=$HOME/esp/xtensa-esp32-elf
           west build -b m5stack_atom_lite/esp32/procpu samples/hello_world \
             -- -DBOARD_ROOT=${{ github.workspace }}
+
+      - name: Upload firmware artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: atom-lite-firmware
+          path: build/zephyr/zephyr.*
