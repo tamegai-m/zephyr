@@ -36,8 +36,8 @@ jobs:
         run: |
           mkdir -p ~/esp
           cd ~/esp
-          wget https://dl.espressif.com/dl/xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch5-linux-amd64.tar.xz
-          tar -xf xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch5-linux-amd64.tar.xz
+          wget https://dl.espressif.com/dl/xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch5-linux-amd64.tar.gz
+          tar -xzf xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch5-linux-amd64.tar.gz
           echo "ZEPHYR_TOOLCHAIN_VARIANT=espressif" >> $GITHUB_ENV
           echo "ESPRESSIF_TOOLCHAIN_PATH=$HOME/esp/xtensa-esp32-elf" >> $GITHUB_ENV
 
