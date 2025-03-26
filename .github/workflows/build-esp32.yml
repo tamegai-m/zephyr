@@ -1,0 +1,40 @@
+name: Build for ESP32 ATOM Lite
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-esp32:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pip cmake ninja-build gperf ccache dfu-util \
+            device-tree-compiler wget xz-utils file make gcc git unzip
+
+      - name: Install west and python deps
+        run: |
+          pip3 install west
+          pip3 install -r scripts/requirements.txt
+
+      - name: Initialize Zephyr workspace
+        run: |
+          west init -l .
+          west update
+          west zephyr-export
+
+      - name: Export ESP32 toolchain (dummy step)
+        run: |
+          echo "ESP32 toolchain setup not implemented yet (IDF not installed)"
+
+      - name: Build hello_world for ESP32
+        run: |
+          west build -b esp32 samples/hello_world
