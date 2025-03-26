@@ -40,10 +40,11 @@ jobs:
           tar -xzf xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch5-linux-amd64.tar.gz
           echo "ZEPHYR_TOOLCHAIN_VARIANT=espressif" >> $GITHUB_ENV
           echo "ESPRESSIF_TOOLCHAIN_PATH=$HOME/esp/xtensa-esp32-elf" >> $GITHUB_ENV
+      
       - name: Build hello_world for M5Stack ATOM Lite
         working-directory: ${{ github.workspace }}
         run: |
           export ZEPHYR_TOOLCHAIN_VARIANT=espressif
           export ESPRESSIF_TOOLCHAIN_PATH=$HOME/esp/xtensa-esp32-elf
-          west build -b m5stack_atom_lite samples/hello_world \
-            -- -DBOARD_ROOT=${{ github.workspace }}/boards
+          west build -b m5stack_atom_lite/esp32/procpu samples/hello_world \
+            -- -DBOARD_ROOT=${{ github.workspace }}
