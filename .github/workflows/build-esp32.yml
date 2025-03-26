@@ -1,4 +1,4 @@
-name: Build for ESP32 ATOM Lite
+name: Build for M5Stack ATOM Lite
 
 on:
   workflow_dispatch:
@@ -20,8 +20,9 @@ jobs:
           sudo apt-get install -y python3-pip cmake ninja-build gperf ccache dfu-util \
             device-tree-compiler wget xz-utils file make gcc git unzip
 
-      - name: Install west and python deps
+      - name: Install west and Python deps
         run: |
+          pip3 install --upgrade pip
           pip3 install west
           pip3 install -r scripts/requirements.txt
 
@@ -31,10 +32,15 @@ jobs:
           west update
           west zephyr-export
 
-      - name: Export ESP32 toolchain (dummy step)
+      - name: Setup ESP32 toolchain
         run: |
-          echo "ESP32 toolchain setup not implemented yet (IDF not installed)"
+          mkdir -p ~/esp
+          cd ~/esp
+          wget https://github.com/espressif/crosstool-ng/releases/download/esp-2021r2-patch5/xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch5-linux-amd64.tar.xz
+          tar -xf xtensa-esp32-elf-gcc8_4_0-esp-2021r2-patch5-linux-amd64.tar.xz
+          echo "ZEPHYR_TOOLCHAIN_VARIANT=espressif" >> $GITHUB_ENV
+          echo "ESPRESSIF_TOOLCHAIN_PATH=$HOME/esp/xtensa-esp32-elf" >> $GITHUB_ENV
 
-      - name: Build hello_world for ESP32
+      - name: Build hello_world for M5Stack ATOM Lite (procpu)
         run: |
-          west build -b esp32 samples/hello_world
+          west build -b m5stack_atom_lite_procpu samples/hello_world
